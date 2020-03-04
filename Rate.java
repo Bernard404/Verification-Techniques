@@ -103,55 +103,44 @@ public class Rate {
         BigDecimal manageMin = new BigDecimal("3");
         BigDecimal staffMin = new BigDecimal("16");
         BigDecimal reduceStudent = new BigDecimal("5.50");
-        BigDecimal greaterBy, reduce, studentPercent = new BigDecimal(".75"),visitorPercent= new BigDecimal(".50");
+        BigDecimal greaterBy, reduce, studentPercent = new BigDecimal(".75"), visitorPercent = new BigDecimal(".50");
         BigDecimal visitorReduce = new BigDecimal("8");
 
         BigDecimal cost = (this.hourlyNormalRate.multiply(BigDecimal.valueOf(normalRateHours))).add(
                 this.hourlyReducedRate.multiply(BigDecimal.valueOf(reducedRateHours)));
 
-        switch(kind)
-        {
+        switch (kind) {
             case STAFF:
-                if(cost.compareTo(staffMin)==-1)
-                {
+                if (cost.compareTo(staffMin) == -1) {
                     return staffMin;
-                }
-                else
-                {
+                } else {
                     return cost;
                 }
 
             case STUDENT:
-                if(cost.compareTo(reduceStudent)==1)
-                {
+                if (cost.compareTo(reduceStudent) == 1) {
                     greaterBy = cost.subtract(reduceStudent);
                     reduce = greaterBy.multiply(studentPercent);
                     return reduceStudent.add(reduce);
-                }
-                else
-                {
+                } else {
                     return cost;
                 }
 
             case MANAGEMENT:
-                if(cost.compareTo(manageMin)==-1)
-                {
+                if (cost.compareTo(manageMin) == -1) {
                     return manageMin;
-                }
-                else
-                {
+                } else {
                     return cost;
                 }
 
             case VISITOR:
-                if(cost.compareTo(visitorReduce)==1)
-                {
+                if (cost.compareTo(visitorReduce) == 1) {
                     greaterBy = cost.subtract(visitorReduce);
                     reduce = greaterBy.multiply(visitorPercent);
                     return reduce;
                 }
         }
-        return (this.hourlyNormalRate.multiply(BigDecimal.valueOf(normalRateHours))).add(
-                this.hourlyReducedRate.multiply(BigDecimal.valueOf(reducedRateHours)));
+        return new BigDecimal("0");
     }
+
 }
