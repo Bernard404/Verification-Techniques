@@ -13,6 +13,7 @@ public class Rate {
     private BigDecimal hourlyReducedRate;
     private ArrayList<Period> reduced = new ArrayList<>();
     private ArrayList<Period> normal = new ArrayList<>();
+    private final calculateInterface visitorRate = new VisitorRate();
 
     public Rate(CarParkKind kind, BigDecimal normalRate, BigDecimal reducedRate, ArrayList<Period> reducedPeriods
             , ArrayList<Period> normalPeriods) {
@@ -25,7 +26,7 @@ public class Rate {
         if (normalRate.compareTo(BigDecimal.ZERO) < 0 || reducedRate.compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("A rate cannot be negative");
         }
-        if (normalRate.compareTo(reducedRate) <= 0) {
+        if (normalRate.compareTo(reducedRate) < 0) {
             throw new IllegalArgumentException("The normal rate cannot be less or equal to the reduced rate");
         }
         if (!isValidPeriods(reducedPeriods) || !isValidPeriods(normalPeriods)) {
@@ -134,13 +135,8 @@ public class Rate {
                 }
 
             case VISITOR:
-                if (cost.compareTo(visitorReduce) == 1) {
-                    greaterBy = cost.subtract(visitorReduce);
-                    reduce = greaterBy.multiply(visitorPercent);
-                    return reduce;
-                }
+                return visitorRate.calculate(cost);
         }
         return new BigDecimal("0");
     }
-
 }

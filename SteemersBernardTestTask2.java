@@ -458,10 +458,10 @@ public class SteemersBernardTestTask2 {
         Period rp = new Period(1,8);
         ArrayList<Period> reducedPeriods = new ArrayList<Period>();
         reducedPeriods.add(rp);
-        Rate rate = new Rate(kind,normalRate,reducedRate,normalPeriods,reducedPeriods);
+        Rate rate = new Rate(kind,normalRate,reducedRate,reducedPeriods,normalPeriods);
 
-        Period stayPeriod = new Period(7,12);
-        assertEquals(new BigDecimal(25), rate.calculate(stayPeriod));
+        Period stayPeriod = new Period(12,13);
+        assertEquals(new BigDecimal("8.8750"), rate.calculate(stayPeriod));
     }
     //18
     @Test
@@ -476,10 +476,10 @@ public class SteemersBernardTestTask2 {
         Period rp = new Period(1,8);
         ArrayList<Period> reducedPeriods = new ArrayList<Period>();
         reducedPeriods.add(rp);
-        Rate rate = new Rate(kind,normalRate,reducedRate,normalPeriods,reducedPeriods);
+        Rate rate = new Rate(kind,normalRate,reducedRate,reducedPeriods,normalPeriods);
 
         Period stayPeriod = new Period(7,12);
-        assertEquals(new BigDecimal(21), rate.calculate(stayPeriod));
+        assertEquals(new BigDecimal("18.6250"), rate.calculate(stayPeriod));
     }
     //19
     @Test
@@ -494,10 +494,10 @@ public class SteemersBernardTestTask2 {
         Period rp = new Period(1,8);
         ArrayList<Period> reducedPeriods = new ArrayList<Period>();
         reducedPeriods.add(rp);
-        Rate rate = new Rate(kind,normalRate,reducedRate,normalPeriods,reducedPeriods);
+        Rate rate = new Rate(kind,normalRate,reducedRate,reducedPeriods,normalPeriods);
 
         Period stayPeriod = new Period(7,12);
-        assertEquals(new BigDecimal(19), rate.calculate(stayPeriod));
+        assertEquals(new BigDecimal("26.1250"), rate.calculate(stayPeriod));
     }
     //20
     @Test
@@ -512,11 +512,147 @@ public class SteemersBernardTestTask2 {
         Period rp = new Period(1,8);
         ArrayList<Period> reducedPeriods = new ArrayList<Period>();
         reducedPeriods.add(rp);
-        Rate rate = new Rate(kind,normalRate,reducedRate,normalPeriods,reducedPeriods);
+        Rate rate = new Rate(kind,normalRate,reducedRate,reducedPeriods,normalPeriods);
 
         Period stayPeriod = new Period(7,12);
-        assertEquals(new BigDecimal(25), rate.calculate(stayPeriod));
+        assertEquals(new BigDecimal("27.6250"), rate.calculate(stayPeriod));
     }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    //29
+    @Test
+    public void calculateSLessThanStaffMin()
+    {
+        CarParkKind kind = CarParkKind.STAFF;
+        BigDecimal normalRate = new BigDecimal(10);
+        BigDecimal reducedRate = new BigDecimal(5);
+        Period np = new Period(9,17);
+        ArrayList<Period> normalPeriods = new ArrayList<Period>();
+        normalPeriods.add(np);
+        Period rp = new Period(1,8);
+        ArrayList<Period> reducedPeriods = new ArrayList<Period>();
+        reducedPeriods.add(rp);
+        Rate rate = new Rate(kind,normalRate,reducedRate,reducedPeriods,normalPeriods);
+
+        Period stayPeriod = new Period(2,3);
+        assertEquals(new BigDecimal("16"), rate.calculate(stayPeriod));
+    }
+
+    //30
+    @Test
+    public void calculateSMoreThanStaffMin()
+    {
+        CarParkKind kind = CarParkKind.STAFF;
+        BigDecimal normalRate = new BigDecimal(10);
+        BigDecimal reducedRate = new BigDecimal(5);
+        Period np = new Period(9,17);
+        ArrayList<Period> normalPeriods = new ArrayList<Period>();
+        normalPeriods.add(np);
+        Period rp = new Period(1,8);
+        ArrayList<Period> reducedPeriods = new ArrayList<Period>();
+        reducedPeriods.add(rp);
+        Rate rate = new Rate(kind,normalRate,reducedRate,reducedPeriods,normalPeriods);
+
+        Period stayPeriod = new Period(3, 9);
+        assertEquals(new BigDecimal("25"), rate.calculate(stayPeriod));
+    }
+
+    //31
+    @Test
+    public void calculateMoreThanReduceStudent()
+    {
+        CarParkKind kind = CarParkKind.STUDENT;
+        BigDecimal normalRate = new BigDecimal(10);
+        BigDecimal reducedRate = new BigDecimal(5);
+        Period np = new Period(9,17);
+        ArrayList<Period> normalPeriods = new ArrayList<Period>();
+        normalPeriods.add(np);
+        Period rp = new Period(1,8);
+        ArrayList<Period> reducedPeriods = new ArrayList<Period>();
+        reducedPeriods.add(rp);
+        Rate rate = new Rate(kind,normalRate,reducedRate,reducedPeriods,normalPeriods);
+
+        Period stayPeriod = new Period(4,5);
+        assertEquals(new BigDecimal("5"), rate.calculate(stayPeriod));
+    }
+
+    //32
+    @Test
+    public void calculateLessThanManagement()
+    {
+        CarParkKind kind = CarParkKind.MANAGEMENT;
+        BigDecimal normalRate = new BigDecimal(2);
+        BigDecimal reducedRate = new BigDecimal(1);
+        Period np = new Period(9,17);
+        ArrayList<Period> normalPeriods = new ArrayList<Period>();
+        normalPeriods.add(np);
+        Period rp = new Period(1,8);
+        ArrayList<Period> reducedPeriods = new ArrayList<Period>();
+        reducedPeriods.add(rp);
+        Rate rate = new Rate(kind,normalRate,reducedRate,reducedPeriods,normalPeriods);
+
+        Period stayPeriod = new Period(6,7);
+        assertEquals(new BigDecimal("3"), rate.calculate(stayPeriod));
+    }
+
+    //32
+    @Test
+    public void calculateMoreThanManagement()
+    {
+        CarParkKind kind = CarParkKind.MANAGEMENT;
+        BigDecimal normalRate = new BigDecimal(2);
+        BigDecimal reducedRate = new BigDecimal(1);
+        Period np = new Period(9,17);
+        ArrayList<Period> normalPeriods = new ArrayList<Period>();
+        normalPeriods.add(np);
+        Period rp = new Period(1,8);
+        ArrayList<Period> reducedPeriods = new ArrayList<Period>();
+        reducedPeriods.add(rp);
+        Rate rate = new Rate(kind,normalRate,reducedRate,reducedPeriods,normalPeriods);
+
+        Period stayPeriod = new Period(6,12);
+        assertEquals(new BigDecimal("8"), rate.calculate(stayPeriod));
+    }
+
+    //32
+    @Test
+    public void calculateMoreThanVisitor()
+    {
+        CarParkKind kind = CarParkKind.VISITOR;
+        BigDecimal normalRate = new BigDecimal(10);
+        BigDecimal reducedRate = new BigDecimal(5);
+        Period np = new Period(9,17);
+        ArrayList<Period> normalPeriods = new ArrayList<Period>();
+        normalPeriods.add(np);
+        Period rp = new Period(1,8);
+        ArrayList<Period> reducedPeriods = new ArrayList<Period>();
+        reducedPeriods.add(rp);
+        Rate rate = new Rate(kind,normalRate,reducedRate,reducedPeriods,normalPeriods);
+
+        Period stayPeriod = new Period(11,15);
+        assertEquals(new BigDecimal("16.00"), rate.calculate(stayPeriod));
+    }
+
+    //33
+    @Test
+    public void calculateLessThanVisitor()
+    {
+        CarParkKind kind = CarParkKind.VISITOR;
+        BigDecimal normalRate = new BigDecimal(10);
+        BigDecimal reducedRate = new BigDecimal(5);
+        Period np = new Period(9,17);
+        ArrayList<Period> normalPeriods = new ArrayList<Period>();
+        normalPeriods.add(np);
+        Period rp = new Period(1,8);
+        ArrayList<Period> reducedPeriods = new ArrayList<Period>();
+        reducedPeriods.add(rp);
+        Rate rate = new Rate(kind,normalRate,reducedRate,reducedPeriods,normalPeriods);
+
+        Period stayPeriod = new Period(5,6);
+        assertEquals(new BigDecimal("0"), rate.calculate(stayPeriod));
+    }
+
 }
 /*
 * Test Case #:
