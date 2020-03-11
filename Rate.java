@@ -13,7 +13,6 @@ public class Rate {
     private BigDecimal hourlyReducedRate;
     private ArrayList<Period> reduced = new ArrayList<>();
     private ArrayList<Period> normal = new ArrayList<>();
-    private final calculateInterface visitorRate = new VisitorRate();
 
     public Rate(CarParkKind kind, BigDecimal normalRate, BigDecimal reducedRate, ArrayList<Period> reducedPeriods
             , ArrayList<Period> normalPeriods) {
@@ -101,42 +100,26 @@ public class Rate {
         int normalRateHours = periodStay.occurences(normal);
         int reducedRateHours = periodStay.occurences(reduced);
 
-        BigDecimal manageMin = new BigDecimal("3");
-        BigDecimal staffMin = new BigDecimal("16");
-        BigDecimal reduceStudent = new BigDecimal("5.50");
-        BigDecimal greaterBy, reduce, studentPercent = new BigDecimal(".75"), visitorPercent = new BigDecimal(".50");
-        BigDecimal visitorReduce = new BigDecimal("8");
-
         BigDecimal cost = (this.hourlyNormalRate.multiply(BigDecimal.valueOf(normalRateHours))).add(
                 this.hourlyReducedRate.multiply(BigDecimal.valueOf(reducedRateHours)));
 
         switch (kind) {
             case STAFF:
-                if (cost.compareTo(staffMin) == -1) {
-                    return staffMin;
-                } else {
-                    return cost;
-                }
+                calculateInterface staffRate = new StaffRate();
+                return staffRate.calculate(cost);
 
             case STUDENT:
-                if (cost.compareTo(reduceStudent) == 1) {
-                    greaterBy = cost.subtract(reduceStudent);
-                    reduce = greaterBy.multiply(studentPercent);
-                    return reduceStudent.add(reduce);
-                } else {
-                    return cost;
-                }
+                calculateInterface studentRate = new StudentRate();
+                return studentRate.calculate(cost);
 
             case MANAGEMENT:
-                if (cost.compareTo(manageMin) == -1) {
-                    return manageMin;
-                } else {
-                    return cost;
-                }
+                calculateInterface managementRate = new ManagementRate();
+                return managementRate.calculate(cost);
 
             case VISITOR:
+                calculateInterface visitorRate = new VisitorRate();
                 return visitorRate.calculate(cost);
         }
-        return new BigDecimal("0");
+        return cost;
     }
 }

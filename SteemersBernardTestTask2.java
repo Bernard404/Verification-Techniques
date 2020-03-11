@@ -650,7 +650,7 @@ public class SteemersBernardTestTask2 {
         Rate rate = new Rate(kind,normalRate,reducedRate,reducedPeriods,normalPeriods);
 
         Period stayPeriod = new Period(5,6);
-        assertEquals(new BigDecimal("0"), rate.calculate(stayPeriod));
+        assertEquals(new BigDecimal("5"), rate.calculate(stayPeriod));
     }
 
 }
